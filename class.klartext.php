@@ -1,5 +1,7 @@
 <?php
 
+//error_reporting(E_ALL);
+
 class KTC {
 
 	function __construct( $cfg ) {
@@ -102,13 +104,19 @@ class KTC {
 		$params['KontoNr']  = $this->cfg['KontoNr'];
 		$params['user']     = $this->cfg['username'];
 		$params['password'] = $this->cfg['password'];
-		//print_r( $params ); exit;
-		//print_r( $this->cfg ); exit;
+
+		// soap options
+		$options = array(
+			'trace'        => true,
+			'exceptions'   => false,
+			'soap_version' => SOAP_1_2,
+			'cache_wsdl'   => WSDL_CACHE_NONE
+		);
 
 		// create client
 		$client = new SoapClient( $this->cfg['wsdl_uri'] );
-		print_r( $client );
-		
+		//$client->soap_defencoding = 'UTF-8';
+
 		// make call
 		$response = $client->$type( $params );
 
@@ -121,6 +129,5 @@ class KTC {
 	}
 
 }
-
 
 ?>
